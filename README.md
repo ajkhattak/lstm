@@ -17,10 +17,10 @@ This module is dependent on a trained deep learning model. The forward pass of t
 ## Sample Data
 
 ### NLDAS sample data
-Sample data required for a test run of this model is available in the [`data/`](./data) directory. This includes:
+Sample data required for a test run of this model is available in the [`data`](./data) directory. This includes:
 * Forcing data: `usgs-streamflow-nldas_hourly.nc`
 * Observation values: also included in `usgs-streamflow-nldas_hourly.nc`
-* Static attributes: see an example configuration file for a list of these attributes in [`./bmi_config_files`](./bmi_config_files/01022500_hourly_all_attributes_forcings.yml) 
+* Static attributes: see an example configuration file for a list of these attributes in [`./bmi_config_files`](./bmi_config_files/02064000_nh_NLDAS_hourly.yml) 
 
 for four USGS gauges:
 * 02064000 Falling River nr Naruna, VA
@@ -46,12 +46,13 @@ Included in this directory are three samples of trained LSTM models:
 
 These three models are trained with different inputs, but they all will run with the same [BMI](./lstm/bmi_lstm.py) and [LSTM](./lstm/nextgen_cuda_lstm.py) model.
 
-## Dependencies
-Running this model requires python and the libraries listed in the [environment file](./environment.yml). This example uses [Anaconda](https://www.anaconda.com), but it isn’t a requirement. You can opt to set up a python environment without it by using the libraries specified in the `environment.yml` file. If you have Anaconda, you can easily create an environment (`bmi_lstm`) with the required libraries using:  `conda env create -f environment.yml`. 
-
-Notice that `xarray` has a specific version defined in the environment file (0.14.0) as the newer versions are incompatible with the current example files. The same goes for `llvm-openmp`, which we set to version 10.0.0 in the dependencies. On some Mac Anaconda releases, users received an error message stating `OMP: Error #15: Initializing libiomp5.dylib, but found libomp.dylib already initialized.` If you get this message, please make sure you have ` - llvm-openmp=10.0.0` set in your environment.yml file. More information on different solutions to resolving this issue can be found [here](https://stackoverflow.com/questions/62903775/intel-mkl-error-using-conda-and-matplotlib-library-not-loaded-rpath-libiomp5).
-
-If at any point you want to see the full list of the packages and dependencies in your activated `bmi_lstm` environment, run `conda env export > environment_<rename>.yml` replacing `<rename>` with your text of choice to avoid overwriting the original `environment.yml` file.
+## Build Python Virtual Enviornment for LSTM
+Running this model requires a few python libraries with specific versions listed in the [file](./pyproject.toml). Use the following instructions to build a virtual python environment
+- mkdir ~/.bmi_lstm
+- python -m venv ~/.bmi_lstm
+- source ~/.bmi_lstm/bin/activate
+- cd <path_to_lstm_dir>
+- pip install -e .
 
 ## Running BMI LSTM
 This section goes through an example of running the LSTM with the BMI interface. These are only examples. If a user wants to run the LSTM with BMI, then these are a jumping off point. These examples were developed to provide a quick testing ground for running the LSTM with the [NextGen framework](https://github.com/NOAA-OWP/ngen).  See the [`doc/`](./doc) folder for more information regarding running this module within `NextGen` as well as the `ngen_files/README.txt` found [here](./ngen_files.README.txt).
@@ -66,7 +67,7 @@ Running these examples of trained LSTM-based hydrological models require these g
 3.  Create a configuration file with the key-value pairs that can be used by the BMI
 4.  Run a script with the Python commands for the BMI model control functions
 
-The [Jupyter Notebook](./notebooks/run_lstm_with_bmi.ipynb) and a Python script [`run_lstm_bmi.py`](./lstm/run_lstm_bmi.py) have an example of running the LSTM with BMI model control functions, which can be summarized as follows:    
+The [Jupyter Notebook](./notebooks/run_lstm_with_bmi.ipynb) and a Python script [`run_lstm_bmi.py`](./lstm/lstm/run_lstm_bmi.py) have an example of running the LSTM with BMI model control functions, which can be summarized as follows:    
 
 1. `conda activate bmi_lstm`
 2. Import required libraries (e.g., `import torch`)

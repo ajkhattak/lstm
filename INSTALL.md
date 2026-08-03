@@ -5,6 +5,18 @@ All Python dependencies are listed in [pyproject.toml](./pyproject.toml). LSTM-B
 
 
 ## Build Python Virtual Environment for LSTM
+### `uv` instructions for UNIX
+```zsh
+cd /path/to/lstm
+uv venv --python 3.13.12
+source .venv/bin/activate
+uv pip install -e .
+# if running testing & development you may run:
+uv pip install -e ".[develop,test]"
+```
+
+
+### Historic Instructions
 Running this model requires a few Python libraries with specific versions listed in the [file](./pyproject.toml). Use the following instructions to build a virtual Python environment
 - mkdir ~/.bmi_lstm
 - python -m venv ~/.bmi_lstm
